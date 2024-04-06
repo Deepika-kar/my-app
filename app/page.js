@@ -31,16 +31,16 @@ function page() {
           <CardHeader>
             <CardTitle>Account</CardTitle>
             <CardDescription>
-              Make changes to your account here. Click save when you're done.
+              Login as a Researcher.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="space-y-1">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">UserName</Label>
               <Input id="name" defaultValue="Pedro Duarte" />
             </div>
             <div className="space-y-1">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="username">Password</Label>
               <Input id="username" defaultValue="@peduarte" />
             </div>
           </CardContent>
@@ -52,23 +52,23 @@ function page() {
       <TabsContent value="password">
         <Card>
           <CardHeader>
-            <CardTitle>Password</CardTitle>
+            <CardTitle>Account</CardTitle>
             <CardDescription>
-              Change your password here. After saving, you'll be logged out.
+              Login as a Patient.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="space-y-1">
-              <Label htmlFor="current">Current password</Label>
+              <Label htmlFor="current">UserName</Label>
               <Input id="current" type="password" />
             </div>
             <div className="space-y-1">
-              <Label htmlFor="new">New password</Label>
+              <Label htmlFor="new"> password</Label>
               <Input id="new" type="password" />
             </div>
           </CardContent>
           <CardFooter>
-            <Button>Save password</Button>
+            <Button>Login</Button>
           </CardFooter>
         </Card>
       </TabsContent>
@@ -78,4 +78,13 @@ function page() {
 }
 
 export default page
+
+
+
+
+
+
+
+
+
 
