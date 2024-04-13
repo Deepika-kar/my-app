@@ -8,6 +8,8 @@ const PROJECTS = [
     description:
       "Share your medical records if you've undergone chemotherapy for breast cancer. Help us understand treatment outcomes and improve therapies for breast cancer patients.",
     tags: ["breast cancer", "chemotherapy", "treatment outcomes", "oncology"],
+    age: [18, 75], // Minimum and maximum age range
+    gender: "F",
   },
   {
     title: "Alzheimer's Disease Symptom Progression Research",
@@ -19,6 +21,8 @@ const PROJECTS = [
       "symptom progression",
       "neurology",
     ],
+    age: [50, 90], // Minimum and maximum age range
+    gender: "M/F",
   },
   {
     title: "Type 2 Diabetes Management Trial",
@@ -30,6 +34,8 @@ const PROJECTS = [
       "clinical trial",
       "endocrinology",
     ],
+    age: [18, 80], // Minimum and maximum age range
+    gender: "M/F",
   },
   {
     title: "Chronic Cough Treatment Study",
@@ -41,6 +47,8 @@ const PROJECTS = [
       "respiratory health",
       "pulmonology",
     ],
+    age: [18, 90], // Minimum and maximum age range
+    gender: "All",
   },
   {
     title: "COVID-19 Vaccine Side Effects Monitoring",
@@ -52,6 +60,8 @@ const PROJECTS = [
       "monitoring program",
       "public health",
     ],
+    age: [18, 100], // Minimum and maximum age range
+    gender: "All",
   },
   {
     title: "Radiation Therapy Adverse Effects Research",
@@ -63,6 +73,8 @@ const PROJECTS = [
       "cancer treatment",
       "oncology",
     ],
+    age: [18, 85], // Minimum and maximum age range
+    gender: "All",
   },
 ];
 
@@ -76,13 +88,15 @@ const Projects = () => {
         </Button>
       </div>
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {PROJECTS.map((project) => {
+        {PROJECTS.map(({ title, description, tags, age, gender }) => {
           return (
             <ProjectCard
-              key={project.title}
-              title={project.title}
-              description={project.description}
-              tags={project.tags}
+              key={title}
+              title={title}
+              description={description}
+              tags={tags}
+              age={age}
+              gender={gender}
             />
           );
         })}
