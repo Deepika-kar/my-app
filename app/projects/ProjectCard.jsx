@@ -7,8 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
-const ProjectCard = ({ title, description }) => {
+const ProjectCard = ({ title, description, tags }) => {
   return (
     <Card className="transition-all duration-500 cursor-pointer hover:scale-105">
       <CardHeader>
@@ -16,11 +17,12 @@ const ProjectCard = ({ title, description }) => {
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <p>Card Content</p>
+        {tags.map((tag) => (
+          <Badge className="mb-2 mr-2" key={tag}>
+            {tag}
+          </Badge>
+        ))}
       </CardContent>
-      <CardFooter>
-        <p>Card Footer</p>
-      </CardFooter>
     </Card>
   );
 };
