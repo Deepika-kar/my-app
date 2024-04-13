@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Card,
   CardContent,
@@ -6,25 +6,23 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 
-
-const ProjectCard = ({title,description}) => {
+const ProjectCard = ({ title, description }) => {
   return (
-    <Card>
-  <CardHeader>
-    <CardTitle>{title}</CardTitle>
-    <CardDescription>{description}</CardDescription>
-  </CardHeader>
-  <CardContent>
-    <p>Card Content</p>
-  </CardContent>
-  <CardFooter>
-    <p>Card Footer</p>
-  </CardFooter>
-</Card>
+    <Card className="transition-all duration-500 cursor-pointer hover:scale-105">
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p>Card Content</p>
+      </CardContent>
+      <CardFooter>
+        <p>Card Footer</p>
+      </CardFooter>
+    </Card>
+  );
+};
 
-  )
-}
-
-export default ProjectCard
+export default ProjectCard;
