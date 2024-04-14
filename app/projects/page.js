@@ -2,6 +2,8 @@ import { Input } from "@/components/ui/input";
 import ProjectCard from "./ProjectCard";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
+import { DatePicker } from "@/components/DatePicker";
+import { Checkbox } from "@/components/ui/checkbox";
 const PROJECTS = [
   {
     title: "Breast Cancer Treatment Outcomes Study",
@@ -81,8 +83,32 @@ const PROJECTS = [
 const Projects = () => {
   return (
     <div className="flex flex-col justify-start align-center">
-      <div className="flex items-center w-full max-w-sm mx-auto mb-10 space-x-2">
-        <Input type="email" placeholder="Search Projects" />
+      <div className="flex items-center w-full mx-auto mb-10 space-x-2">
+        <DatePicker placeholder="Date of birth" />
+        <div className="p-[5px] border rounded-lg">
+          <h6 className="text-xs">Gender </h6>
+          <div className="flex">
+            <div className="flex items-center mr-1 space-x-2">
+              <Checkbox id="male" />
+              <label
+                htmlFor="male"
+                className="text-xs peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                M
+              </label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="female" />
+              <label
+                htmlFor="female"
+                className="text-xs peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                F
+              </label>
+            </div>
+          </div>
+        </div>
+        <Input type="text" placeholder="Search Projects" />
         <Button type="submit" size="icon">
           <Search className="w-4 h-4" />
         </Button>
