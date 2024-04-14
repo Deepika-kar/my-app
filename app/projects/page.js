@@ -1,9 +1,12 @@
+"use client";
 import { Input } from "@/components/ui/input";
 import ProjectCard from "./ProjectCard";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
-import { DatePicker } from "@/components/DatePicker";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useFormik } from "formik";
+import { useState } from "react";
+
 const PROJECTS = [
   {
     title: "Breast Cancer Treatment Outcomes Study",
@@ -24,7 +27,7 @@ const PROJECTS = [
       "neurology",
     ],
     age: [50, 90], // Minimum and maximum age range
-    gender: "M/F",
+    gender: "M",
   },
   {
     title: "Type 2 Diabetes Management Trial",
@@ -37,7 +40,7 @@ const PROJECTS = [
       "endocrinology",
     ],
     age: [18, 80], // Minimum and maximum age range
-    gender: "M/F",
+    gender: "F",
   },
   {
     title: "Chronic Cough Treatment Study",
@@ -79,17 +82,74 @@ const PROJECTS = [
     gender: "All",
   },
 ];
+const calculateAge = (birthDate) =>
+  new Date().getFullYear() -
+  new Date(birthDate).getFullYear() -
+  (new Date().getMonth() < new Date(birthDate).getMonth() ||
+  (new Date().getMonth() === new Date(birthDate).getMonth() &&
+    new Date().getDate() < new Date(birthDate).getDate())
+    ? 1
+    : 0);
 
 const Projects = () => {
+  const [filteredProjects, setFilteredProjects] = useState(PROJECTS);
+  const formik = useFormik({
+    initialValues: {
+      age: null,
+      male: true,
+      female: false,
+      text: "",
+    },
+    onSubmit: (values) => {
+      const projects = PROJECTS.filter((project) => {
+        if (values.age) {
+          return values.age >= project.age[0] && values.age <= project.age[1];
+        }
+        return true;
+      })
+        .filter((project) => {
+          if (values.male || values.female) {
+            if (values.male && values.female) {
+              return true;
+            }
+            if (values.male) {
+              return project.gender === "M";
+            }
+            if (values.female) {
+              return project.gender === "F";
+            }
+          }
+          return true;
+        })
+        .filter(
+          (project) =>
+            project.title.toLowerCase().includes(values.text.toLowerCase()) ||
+            project.tags.some((tag) =>
+              tag.toLowerCase().includes(values.text.toLowerCase())
+            )
+        );
+      setFilteredProjects(projects);
+    },
+  });
   return (
     <div className="flex flex-col justify-start align-center">
       <div className="flex items-center w-full mx-auto mb-10 space-x-2">
-        <DatePicker placeholder="Date of birth" />
+        <Input
+          className="w-40"
+          type="number"
+          placeholder="Enter age"
+          value={formik.values.age}
+          onChange={(e) => formik.setFieldValue("age", e.target.value)}
+        />
         <div className="p-[5px] border rounded-lg">
           <h6 className="text-xs">Gender </h6>
           <div className="flex">
             <div className="flex items-center mr-1 space-x-2">
-              <Checkbox id="male" />
+              <Checkbox
+                id="male"
+                checked={formik.values.male}
+                onCheckedChange={(value) => formik.setFieldValue("male", value)}
+              />
               <label
                 htmlFor="male"
                 className="text-xs peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -98,7 +158,13 @@ const Projects = () => {
               </label>
             </div>
             <div className="flex items-center space-x-2">
-              <Checkbox id="female" />
+              <Checkbox
+                id="female"
+                checked={formik.values.female}
+                onCheckedChange={(value) =>
+                  formik.setFieldValue("female", value)
+                }
+              />
               <label
                 htmlFor="female"
                 className="text-xs peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -108,13 +174,18 @@ const Projects = () => {
             </div>
           </div>
         </div>
-        <Input type="text" placeholder="Search Projects" />
+        <Input
+          type="text"
+          placeholder="Search Projects"
+          value={formik.values.text}
+          onChange={(e) => formik.setFieldValue("text", e.target.value)}
+        />
         <Button type="submit" size="icon">
-          <Search className="w-4 h-4" />
+          <Search onClick={formik.handleSubmit} className="w-4 h-4" />
         </Button>
       </div>
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {PROJECTS.map(({ title, description, tags, age, gender }) => {
+        {filteredProjects.map(({ title, description, tags, age, gender }) => {
           return (
             <ProjectCard
               key={title}
