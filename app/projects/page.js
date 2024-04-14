@@ -2,8 +2,16 @@
 import { Input } from "@/components/ui/input";
 import ProjectCard from "./ProjectCard";
 import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Search, CircleX } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useFormik } from "formik";
 import { useState } from "react";
 
@@ -13,7 +21,7 @@ const PROJECTS = [
     description:
       "Share your medical records if you've undergone chemotherapy for breast cancer. Help us understand treatment outcomes and improve therapies for breast cancer patients.",
     tags: ["breast cancer", "chemotherapy", "treatment outcomes", "oncology"],
-    age: [18, 75], // Minimum and maximum age range
+    age: [18, 75],
     gender: "F",
   },
   {
@@ -26,7 +34,7 @@ const PROJECTS = [
       "symptom progression",
       "neurology",
     ],
-    age: [50, 90], // Minimum and maximum age range
+    age: [50, 90],
     gender: "M",
   },
   {
@@ -39,7 +47,7 @@ const PROJECTS = [
       "clinical trial",
       "endocrinology",
     ],
-    age: [18, 80], // Minimum and maximum age range
+    age: [18, 80],
     gender: "F",
   },
   {
@@ -52,7 +60,7 @@ const PROJECTS = [
       "respiratory health",
       "pulmonology",
     ],
-    age: [18, 90], // Minimum and maximum age range
+    age: [18, 90],
     gender: "All",
   },
   {
@@ -65,7 +73,7 @@ const PROJECTS = [
       "monitoring program",
       "public health",
     ],
-    age: [18, 100], // Minimum and maximum age range
+    age: [18, 100],
     gender: "All",
   },
   {
@@ -78,18 +86,10 @@ const PROJECTS = [
       "cancer treatment",
       "oncology",
     ],
-    age: [18, 85], // Minimum and maximum age range
+    age: [18, 85],
     gender: "All",
   },
 ];
-const calculateAge = (birthDate) =>
-  new Date().getFullYear() -
-  new Date(birthDate).getFullYear() -
-  (new Date().getMonth() < new Date(birthDate).getMonth() ||
-  (new Date().getMonth() === new Date(birthDate).getMonth() &&
-    new Date().getDate() < new Date(birthDate).getDate())
-    ? 1
-    : 0);
 
 const Projects = () => {
   const [filteredProjects, setFilteredProjects] = useState(PROJECTS);
@@ -141,47 +141,38 @@ const Projects = () => {
           value={formik.values.age}
           onChange={(e) => formik.setFieldValue("age", e.target.value)}
         />
-        <div className="p-[5px] border rounded-lg">
-          <h6 className="text-xs">Gender </h6>
-          <div className="flex">
-            <div className="flex items-center mr-1 space-x-2">
-              <Checkbox
-                id="male"
-                checked={formik.values.male}
-                onCheckedChange={(value) => formik.setFieldValue("male", value)}
-              />
-              <label
-                htmlFor="male"
-                className="text-xs peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                M
-              </label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="female"
-                checked={formik.values.female}
-                onCheckedChange={(value) =>
-                  formik.setFieldValue("female", value)
-                }
-              />
-              <label
-                htmlFor="female"
-                className="text-xs peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                F
-              </label>
-            </div>
-          </div>
-        </div>
+        <Select
+          onValueChange={(value) => formik.setFieldValue("gender", value)}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select gender" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Gender</SelectLabel>
+              <SelectItem value="M">Male</SelectItem>
+              <SelectItem value="F">Female</SelectItem>
+              <SelectItem value="All">All</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
         <Input
           type="text"
           placeholder="Search Projects"
           value={formik.values.text}
           onChange={(e) => formik.setFieldValue("text", e.target.value)}
         />
-        <Button type="submit" size="icon">
+        <Button size="icon">
           <Search onClick={formik.handleSubmit} className="w-4 h-4" />
+        </Button>
+        <Button variant="secondary" size="icon">
+          <CircleX
+            onClick={() => {
+              formik.handleReset();
+              setFilteredProjects(PROJECTS);
+            }}
+            className="w-4 h-4"
+          />
         </Button>
       </div>
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
