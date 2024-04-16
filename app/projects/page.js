@@ -1,6 +1,6 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import ProjectCard from "./ProjectCard";
+import ProjectCard from "@/components/ProjectCard";
 import { Button } from "@/components/ui/button";
 import { Search, CircleX } from "lucide-react";
 import {
