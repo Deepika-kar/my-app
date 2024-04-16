@@ -26,11 +26,19 @@ const ProjectDetails = () => {
         </Button>
       </div>
       <div className="my-4">
-        {PROJECT.tags.map((tag) => (
-          <Badge className="mb-2 mr-2" key={tag}>
-            {tag}
+        <div>
+          {PROJECT.tags.map((tag) => (
+            <Badge variant="secondary" className="mb-2 mr-2" key={tag}>
+              {tag}
+            </Badge>
+          ))}
+        </div>
+        <div>
+          <Badge className="mb-2 mr-2">
+            Age {PROJECT.age[0]} - {PROJECT.age[1]}
           </Badge>
-        ))}
+          <Badge className="mb-2 mr-2">Gender {PROJECT.gender}</Badge>
+        </div>
       </div>
       <p className="mt-6 text-lg leading-8">{PROJECT.description}</p>
       <Separator className="my-4" />
