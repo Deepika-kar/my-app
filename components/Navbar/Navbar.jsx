@@ -18,10 +18,10 @@ const NAVS = [
     title: "All Projects",
     url: "/projects",
   },
-  {
-    title: "Profile",
-    url: "/profile",
-  },
+  // {
+  //   title: "Profile",
+  //   url: "/profile",
+  // },
 ];
 
 const NavItem = ({ title, url }) => {
