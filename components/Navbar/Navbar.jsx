@@ -48,9 +48,8 @@ export default function Navbar() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left">
-          <Link href="#">
+          <Link href="/">
             <ShieldPlus className="w-6 h-6" />
-            <span className="sr-only">Acme Inc</span>
           </Link>
           <div className="grid gap-2 py-6">
             {NAVS.map(({ title, url }) => (
@@ -65,9 +64,8 @@ export default function Navbar() {
           </div>
         </SheetContent>
       </Sheet>
-      <Link className="hidden mr-6 lg:flex" href="#">
+      <Link className="hidden mr-6 lg:flex" href="/">
         <ShieldPlus className="w-6 h-6" />
-        <span className="sr-only">Acme Inc</span>
       </Link>
       <NavigationMenu className="hidden lg:flex">
         <NavigationMenuList>
