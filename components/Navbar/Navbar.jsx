@@ -11,20 +11,16 @@ import { ShieldPlus, Menu } from "lucide-react";
 
 const NAVS = [
   {
-    title: "Home",
-    url: "/",
+    title: "My Projects",
+    url: "/my-projects",
   },
   {
-    title: "About",
-    url: "/about",
-  },
-  {
-    title: "Projects",
+    title: "All Projects",
     url: "/projects",
   },
   {
-    title: "Contact",
-    url: "/contact",
+    title: "Profile",
+    url: "/profile",
   },
 ];
 
