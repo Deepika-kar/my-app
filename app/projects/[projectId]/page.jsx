@@ -1,7 +1,7 @@
+"use client";
+import { ShareDetailsForm } from "@/components/Projects/ShareDataFrom";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Share } from "lucide-react";
 
 const PROJECT = {
   title: "Breast Cancer Treatment Outcomes Study",
@@ -20,10 +20,7 @@ const ProjectDetails = () => {
         <h2 className="flex-1 text-2xl font-bold leading-7 sm:truncate sm:text-3xl sm:tracking-tight">
           {PROJECT.title}
         </h2>
-        <Button>
-          <Share />
-          Share Details
-        </Button>
+        <ShareDetailsForm />
       </div>
       <div className="my-4">
         <div>

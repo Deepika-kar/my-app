@@ -1,8 +1,7 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import ProjectCard from "@/components/ProjectCard";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { CreateProjectForm } from "@/components/Projects/CreateProjectFrom";
 
 const PROJECTS = [
   {
@@ -51,10 +50,7 @@ const Projects = () => {
           placeholder="Search your Projects"
           onChange={(e) => console.log(e.target.value)}
         />
-        <Button>
-          <Plus />
-          Add New Project
-        </Button>
+        <CreateProjectForm />
       </div>
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         {PROJECTS.map(({ title, description, tags, age, gender }) => {
