@@ -13,7 +13,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { redirect } from "next/navigation";
 
 const PROJECTS = [
   {
@@ -92,6 +94,10 @@ const PROJECTS = [
 ];
 
 const Projects = () => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  useLayoutEffect(() => {
+    if (!isLoggedIn) redirect("/login");
+  }, [isLoggedIn]);
   const [filteredProjects, setFilteredProjects] = useState(PROJECTS);
   const formik = useFormik({
     initialValues: {

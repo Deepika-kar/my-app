@@ -2,6 +2,9 @@
 import { Input } from "@/components/ui/input";
 import ProjectCard from "@/components/ProjectCard";
 import { CreateProjectForm } from "@/components/Projects/CreateProjectFrom";
+import { useSelector } from "react-redux";
+import { useLayoutEffect } from "react";
+import { redirect } from "next/navigation";
 
 const PROJECTS = [
   {
@@ -41,6 +44,10 @@ const PROJECTS = [
 ];
 
 const Projects = () => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  useLayoutEffect(() => {
+    if (!isLoggedIn) redirect("/login");
+  }, [isLoggedIn]);
   return (
     <div className="flex flex-col justify-start align-center">
       <div className="flex mb-10">
