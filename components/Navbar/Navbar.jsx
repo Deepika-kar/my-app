@@ -9,6 +9,9 @@ import {
 } from "@/components/ui/navigation-menu";
 import { ShieldPlus, Menu, LogOut } from "lucide-react";
 import authService from "../../appwrite/auth";
+import { useRouter } from "next/navigation";
+import { logout } from "../../store/AuthSlice";
+import { useDispatch } from "react-redux";
 
 const NAVS = [
   {
@@ -39,6 +42,9 @@ const NavItem = ({ title, url }) => {
 };
 
 export default function Navbar() {
+  const router = useRouter();
+  const dispatch = useDispatch();
+
   return (
     <header className="flex items-center justify-between w-full h-20 px-4 shrink-0 md:px-6">
       <div>
@@ -81,7 +87,13 @@ export default function Navbar() {
       <Button
         onClick={async () => {
           const loggedOut = await authService.logout();
+
           console.log(loggedOut);
+          if (loggedOut) {
+            dispatch(logout());
+
+            router.push("/login");
+          }
         }}
         className="float-left"
       >

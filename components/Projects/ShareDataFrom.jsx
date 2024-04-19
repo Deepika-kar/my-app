@@ -90,7 +90,7 @@ export function ShareDetailsForm() {
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Submit</Button>
+          <Button>Submit</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
