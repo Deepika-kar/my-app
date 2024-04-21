@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
 import { useFormik } from "formik";
 import { redirect } from "next/navigation";
 import { useSelector } from "react-redux";
@@ -22,11 +23,14 @@ import { login } from "../../store/AuthSlice";
 
 function Page() {
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { toast } = useToast();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
   useLayoutEffect(() => {
     if (isLoggedIn) redirect("/projects");
   }, [isLoggedIn]);
-  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -38,6 +42,10 @@ function Page() {
       if (userData) {
         const user = await authService.getCurrentUser();
         if (user) {
+          toast({
+            title: "Login Success",
+            description: "Logged in as " + user?.name,
+          });
           dispatch(login(user));
           setLoading(false);
           redirect("/projects");
