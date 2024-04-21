@@ -8,11 +8,11 @@ import {
   NavigationMenu,
 } from "@/components/ui/navigation-menu";
 import { ShieldPlus, Menu, LogOut } from "lucide-react";
-import authService from "../../appwrite/auth";
 import { useRouter } from "next/navigation";
-import { logout } from "../../store/AuthSlice";
 import { useDispatch } from "react-redux";
 
+import authService from "../../appwrite/auth";
+import { logout } from "../../store/AuthSlice";
 const NAVS = [
   {
     title: "My Projects",
@@ -22,10 +22,6 @@ const NAVS = [
     title: "All Projects",
     url: "/projects",
   },
-  // {
-  //   title: "Profile",
-  //   url: "/profile",
-  // },
 ];
 
 const NavItem = ({ title, url }) => {

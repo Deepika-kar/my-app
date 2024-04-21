@@ -1,4 +1,5 @@
 "use client";
+import { useLayoutEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,16 +11,17 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useFormik } from "formik";
-import { useLayoutEffect } from "react";
+import { redirect } from "next/navigation";
+import { useSelector } from "react-redux";
+import { Loader } from "lucide-react";
+
 import authService from "../../appwrite/auth";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/AuthSlice";
-import { redirect } from "next/navigation";
-import { useSelector } from "react-redux";
 
 function Page() {
+  const [loading, setLoading] = useState(false);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   useLayoutEffect(() => {
     if (isLoggedIn) redirect("/projects");
@@ -31,11 +33,13 @@ function Page() {
       password: "",
     },
     onSubmit: async (values) => {
+      setLoading(true);
       const userData = await authService.login(values.email, values.password);
       if (userData) {
         const user = await authService.getCurrentUser();
         if (user) {
           dispatch(login(user));
+          setLoading(false);
           redirect("/projects");
         }
       }
@@ -68,7 +72,10 @@ function Page() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button onClick={formik.handleSubmit}>Login</Button>
+          <Button onClick={formik.handleSubmit} disabled={loading}>
+            {loading && <Loader className="w-4 h-4 mr-2 animate-spin" />}
+            Login
+          </Button>
         </CardFooter>
       </Card>
     </div>
