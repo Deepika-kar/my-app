@@ -8,7 +8,7 @@ import {
   NavigationMenu,
 } from "@/components/ui/navigation-menu";
 import { ShieldPlus, Menu, LogOut } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useDispatch } from "react-redux";
 
 import authService from "../../appwrite/auth";
@@ -39,63 +39,67 @@ const NavItem = ({ title, url }) => {
 
 export default function Navbar() {
   const router = useRouter();
+  const pathname = usePathname();
+  console.log(pathname);
   const dispatch = useDispatch();
 
   return (
-    <header className="flex items-center justify-between w-full h-20 px-4 shrink-0 md:px-6">
-      <div>
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button className="lg:hidden" size="icon" variant="outline">
-              <Menu className="w-6 h-6" />
-              <span className="sr-only">Toggle navigation menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left">
-            <Link href="/">
-              <ShieldPlus className="w-6 h-6" />
-            </Link>
-            <div className="grid gap-2 py-6">
+    pathname !== "/login" && (
+      <header className="flex items-center justify-between w-full h-20 px-4 shrink-0 md:px-6">
+        <div>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button className="lg:hidden" size="icon" variant="outline">
+                <Menu className="w-6 h-6" />
+                <span className="sr-only">Toggle navigation menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+              <Link href="/">
+                <ShieldPlus className="w-6 h-6" />
+              </Link>
+              <div className="grid gap-2 py-6">
+                {NAVS.map(({ title, url }) => (
+                  <Link
+                    className="flex items-center w-full py-2 text-lg font-semibold"
+                    href={url}
+                    key={title}
+                  >
+                    {title}
+                  </Link>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
+          <Link className="hidden mr-6 lg:flex" href="/">
+            <ShieldPlus className="w-6 h-6" />
+          </Link>
+          <NavigationMenu className="hidden lg:flex">
+            <NavigationMenuList>
               {NAVS.map(({ title, url }) => (
-                <Link
-                  className="flex items-center w-full py-2 text-lg font-semibold"
-                  href={url}
-                  key={title}
-                >
-                  {title}
-                </Link>
+                <NavItem key={title} title={title} url={url} />
               ))}
-            </div>
-          </SheetContent>
-        </Sheet>
-        <Link className="hidden mr-6 lg:flex" href="/">
-          <ShieldPlus className="w-6 h-6" />
-        </Link>
-        <NavigationMenu className="hidden lg:flex">
-          <NavigationMenuList>
-            {NAVS.map(({ title, url }) => (
-              <NavItem key={title} title={title} url={url} />
-            ))}
-          </NavigationMenuList>
-        </NavigationMenu>
-      </div>
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
 
-      <Button
-        onClick={async () => {
-          const loggedOut = await authService.logout();
+        <Button
+          onClick={async () => {
+            const loggedOut = await authService.logout();
 
-          console.log(loggedOut);
-          if (loggedOut) {
-            dispatch(logout());
+            console.log(loggedOut);
+            if (loggedOut) {
+              dispatch(logout());
 
-            router.push("/login");
-          }
-        }}
-        className="float-left"
-      >
-        Logout
-        <LogOut />
-      </Button>
-    </header>
+              router.push("/login");
+            }
+          }}
+          className="float-left"
+        >
+          Logout
+          <LogOut />
+        </Button>
+      </header>
+    )
   );
 }
