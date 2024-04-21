@@ -9,10 +9,11 @@ import {
 } from "@/components/ui/navigation-menu";
 import { ShieldPlus, Menu, LogOut } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import authService from "../../appwrite/auth";
 import { logout } from "../../store/AuthSlice";
+import { ProfileIcon } from "./ProfileIcon";
 const NAVS = [
   {
     title: "My Projects",
@@ -40,7 +41,7 @@ const NavItem = ({ title, url }) => {
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
-  console.log(pathname);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
 
   return (
@@ -83,22 +84,7 @@ export default function Navbar() {
           </NavigationMenu>
         </div>
 
-        <Button
-          onClick={async () => {
-            const loggedOut = await authService.logout();
-
-            console.log(loggedOut);
-            if (loggedOut) {
-              dispatch(logout());
-
-              router.push("/login");
-            }
-          }}
-          className="float-left"
-        >
-          Logout
-          <LogOut />
-        </Button>
+        {isLoggedIn ? <ProfileIcon /> : <Button>Login</Button>}
       </header>
     )
   );
