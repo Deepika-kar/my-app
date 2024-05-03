@@ -39,6 +39,25 @@ export class Service {
       return false;
     }
   }
+  async getMyProjects(userId) {
+    try {
+      // Create a query to filter documents by userId
+      const query = [Query.equal("user", userId)];
+
+      // Fetch documents based on the userId
+      return await this.databases.listDocuments(
+        conf.appwriteDatabaseId,
+        conf.appwriteCollectionId,
+        query
+      );
+    } catch (error) {
+      console.log(
+        "Appwrite service :: getMyProjects():: Error getting projects by user",
+        error
+      );
+      return false;
+    }
+  }
   async createProject(data) {
     try {
       return await this.databases.createDocument(

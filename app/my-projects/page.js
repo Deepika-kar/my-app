@@ -1,10 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { Input } from "@/components/ui/input";
 import ProjectCard from "@/components/ProjectCard";
 import { CreateProjectForm } from "@/components/Projects/CreateProjectFrom";
 import { useSelector } from "react-redux";
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { redirect } from "next/navigation";
+import service from "@/appwrite/config";
 
 const PROJECTS = [
   {
@@ -44,10 +46,21 @@ const PROJECTS = [
 ];
 
 const Projects = () => {
+  const [myProjects, setMyProjects] = useState([]);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const userData = useSelector((state) => state.auth.userData);
   useLayoutEffect(() => {
     if (!isLoggedIn) redirect("/login");
   }, [isLoggedIn]);
+  const fetchMyProjects = async () => {
+    const response = await service
+      .getMyProjects(userData.$id)
+      .then((response) => setMyProjects(response.documents));
+  };
+  useEffect(() => {
+    fetchMyProjects();
+  }, []);
+
   return (
     <div className="flex flex-col justify-start align-center">
       <div className="flex mb-10">
@@ -57,21 +70,24 @@ const Projects = () => {
           placeholder="Search your Projects"
           onChange={(e) => console.log(e.target.value)}
         />
-        <CreateProjectForm />
+        <CreateProjectForm fetchMyProjects={fetchMyProjects} />
       </div>
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {PROJECTS.map(({ title, description, tags, age, gender }) => {
-          return (
-            <ProjectCard
-              key={title}
-              title={title}
-              description={description}
-              tags={tags}
-              age={age}
-              gender={gender}
-            />
-          );
-        })}
+        {myProjects.length
+          ? myProjects.map(({ title, description, tags, age, gender, $id }) => {
+              return (
+                <ProjectCard
+                  key={title}
+                  title={title}
+                  description={description}
+                  tags={tags}
+                  age={age}
+                  gender={gender}
+                  id={$id}
+                />
+              );
+            })
+          : "No projects found please create a new project"}
       </div>
     </div>
   );
