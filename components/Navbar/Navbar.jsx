@@ -24,6 +24,10 @@ const NAVS = [
     title: "All Projects",
     url: "/projects",
   },
+  {
+    title: "IPFS",
+    url: "/ipfs",
+  },
 ];
 
 const NavItem = ({ title, url }) => {
