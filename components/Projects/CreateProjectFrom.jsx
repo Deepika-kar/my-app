@@ -21,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
+import { Loader } from "lucide-react";
 
 import { Textarea } from "../ui/textarea";
 import { useFormik } from "formik";
@@ -28,8 +29,10 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import authService from "@/appwrite/auth";
 import service from "@/appwrite/config";
+import { useToast } from "../ui/use-toast";
 
 export function CreateProjectForm() {
+  const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const userData = useSelector((state) => state.auth.userData);
@@ -51,9 +54,24 @@ export function CreateProjectForm() {
       };
       delete payload.min;
       delete payload.max;
-      // setLoading(true);
-      const submit = await service.createProject(payload);
-      console.log(submit);
+      setLoading(true);
+      const createdProject = await service.createProject(payload);
+      console.log(createdProject);
+      setLoading(false);
+      if (createdProject?.$id) {
+        toast({
+          title: "Success",
+          description: "Project created successfully",
+        });
+        formik.handleReset();
+        setOpen(false);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Failed",
+          description: "Failed to create project",
+        });
+      }
     },
   });
   return (
@@ -173,6 +191,7 @@ export function CreateProjectForm() {
         </div>
         <DialogFooter>
           <Button disabled={loading} onClick={formik.handleSubmit}>
+            {loading && <Loader className="w-4 h-4 mr-2 animate-spin" />}
             Submit
           </Button>
         </DialogFooter>
