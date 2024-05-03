@@ -10,6 +10,7 @@ import {
 import { ShieldPlus, Menu, LogOut } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
+import { redirect } from "next/navigation";
 
 import authService from "../../appwrite/auth";
 import { logout } from "../../store/AuthSlice";
@@ -84,7 +85,13 @@ export default function Navbar() {
           </NavigationMenu>
         </div>
 
-        {isLoggedIn ? <ProfileIcon /> : <Button>Login</Button>}
+        {isLoggedIn ? (
+          <ProfileIcon />
+        ) : (
+          <Link className="border-solid border-l-accent" href="/login">
+            Login
+          </Link>
+        )}
       </header>
     )
   );
