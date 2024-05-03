@@ -10,9 +10,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
-const ProjectCard = ({ title, description, tags, age, gender }) => {
+const ProjectCard = ({ title, description, tags, age, gender, id }) => {
   return (
-    <Link href="/projects/1">
+    <Link href={`/projects/${id}`}>
       <Card className="transition-all duration-500 cursor-pointer hover:scale-105">
         <CardHeader>
           <CardTitle>{title}</CardTitle>

@@ -1,16 +1,15 @@
-import { Client, Database, Storage, Query } from "appwrite";
+import { Client, Databases, Storage, Query, ID } from "appwrite";
 import conf from "./conf";
 
 export class Service {
   client = new Client();
   databases;
   bucket;
-
   constructor() {
     this.client
       .setEndpoint(conf.appwriteUrl)
       .setProject(conf.appwriteProjectId);
-    this.databases = new Database(this.client);
+    this.databases = new Databases(this.client);
     this.bucket = new Storage(this.client);
   }
   async getProject(slug) {
@@ -33,7 +32,10 @@ export class Service {
         queries
       );
     } catch (error) {
-      console.log("Appwrite service :: getProjects():: Error getting projects");
+      console.log(
+        "Appwrite service :: getProjects():: Error getting projects",
+        error
+      );
       return false;
     }
   }
@@ -42,10 +44,12 @@ export class Service {
       return await this.databases.createDocument(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
+        ID.unique(),
         data
       );
     } catch (error) {
       console.log(
+        error,
         "Appwrite service :: createProject():: Error creating project"
       );
       return false;
